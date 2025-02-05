@@ -50,6 +50,9 @@ kotlin {
             // material3
             implementation(compose.material3)
 
+            // data
+            implementation(project(":data"))
+
             // domain
             implementation(project(":domain"))
         }

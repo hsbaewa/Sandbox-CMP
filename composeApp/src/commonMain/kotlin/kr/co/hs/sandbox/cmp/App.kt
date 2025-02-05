@@ -24,6 +24,8 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kr.co.hs.domain.usecase.NoErrorUseCase
 import kr.co.hs.sandbox.cmp.ui.AppTheme
+import kr.co.hs.sandbox.data.getPlatformInfoRepository
+import kr.co.hs.sandbox.data.repository.DefaultCommonInfoRepository
 import kr.co.hs.sandbox.domain.usecase.GetCommonInfoUseCase
 import kr.co.hs.sandbox.domain.usecase.GetPlatformInfoUseCase
 import org.jetbrains.compose.resources.painterResource
@@ -78,7 +80,9 @@ private fun Content(
             var commonText by remember { mutableStateOf<String?>(null) }
 
             LaunchedEffect(Unit) {
-                val getPlatformInfo = GetPlatformInfoUseCase()
+                val getPlatformInfo = GetPlatformInfoUseCase(
+                    repository = getPlatformInfoRepository()
+                )
                 getPlatformInfo()
                     .flowOn(Dispatchers.IO)
                     .map {
@@ -91,7 +95,9 @@ private fun Content(
                     .catch { os = it.message }
                     .launchIn(this)
 
-                val getCommonInfo = GetCommonInfoUseCase()
+                val getCommonInfo = GetCommonInfoUseCase(
+                    repository = DefaultCommonInfoRepository()
+                )
                 getCommonInfo()
                     .flowOn(Dispatchers.IO)
                     .map {
