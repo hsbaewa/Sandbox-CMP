@@ -1,4 +1,4 @@
-package kr.co.hs.sandbox.cmp.ui
+package kr.co.hs.sandbox.cmp.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

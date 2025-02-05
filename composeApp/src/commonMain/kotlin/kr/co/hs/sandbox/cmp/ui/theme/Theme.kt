@@ -1,4 +1,4 @@
-package kr.co.hs.sandbox.cmp.ui
+package kr.co.hs.sandbox.cmp.ui.theme
 
 import androidx.compose.material.ripple.RippleAlpha
 import androidx.compose.material3.ExperimentalMaterial3Api
