@@ -12,12 +12,14 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kr.co.hs.domain.usecase.NoErrorUseCase
-import kr.co.hs.sandbox.data.repository.DefaultCommonInfoRepository
 import kr.co.hs.sandbox.domain.usecase.GetCommonInfoUseCase
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.get
 
-class CommonInfoViewModel(
-    getCommonInfoUseCase: GetCommonInfoUseCase = GetCommonInfoUseCase(repository = DefaultCommonInfoRepository())
-) : ViewModel() {
+class CommonInfoViewModel : ViewModel(), KoinComponent {
+
+    private val getCommonInfoUseCase: GetCommonInfoUseCase = get()
+
     private val _text = MutableStateFlow<String?>(null)
     val text: StateFlow<String?> = _text.asStateFlow()
 

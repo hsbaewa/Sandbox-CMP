@@ -50,6 +50,11 @@ kotlin {
             // viewmodel
             implementation(libs.androidx.lifecycle.viewmodel.compose)
 
+            // koin
+            implementation(project.dependencies.platform(libs.koin.bom))
+            implementation(libs.koin.core)
+            implementation(libs.koin.compose)
+
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material)
