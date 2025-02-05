@@ -12,12 +12,14 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kr.co.hs.domain.usecase.NoErrorUseCase
-import kr.co.hs.sandbox.data.getPlatformInfoRepository
 import kr.co.hs.sandbox.domain.usecase.GetPlatformInfoUseCase
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.get
 
-class PlatformInfoViewModel(
-    getPlatformInfoUseCase: GetPlatformInfoUseCase = GetPlatformInfoUseCase(repository = getPlatformInfoRepository())
-) : ViewModel() {
+class PlatformInfoViewModel : ViewModel(), KoinComponent {
+
+    private val getPlatformInfoUseCase: GetPlatformInfoUseCase = get()
+
     private val _os = MutableStateFlow<String?>(null)
     val os: StateFlow<String?> = _os.asStateFlow()
 
