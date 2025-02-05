@@ -15,14 +15,14 @@ kotlin {
             }
         }
     }
-    
+
     listOf(
         iosX64(),
         iosArm64(),
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "data"
+            baseName = "data-ktorfit"
             isStatic = true
         }
     }
@@ -30,14 +30,19 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             //put your multiplatform dependencies here
-            implementation(libs.kotlinx.coroutines.core)
 
             // koin
             implementation(project.dependencies.platform(libs.koin.bom))
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
 
-            implementation(project(":data-ktor"))
+            // Ktorfit
+            implementation(libs.ktorfit.lib)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.serialization.kotlinx.json)
+
+            // json
+            implementation(libs.kotlinx.serialization.json)
 
             implementation(project(":domain"))
         }
@@ -56,7 +61,7 @@ kotlin {
 }
 
 android {
-    namespace = "kr.co.hs.sandbox.data"
+    namespace = "kr.co.hs.sandbox.data.ktorfit"
     compileSdk = 34
     defaultConfig {
         minSdk = 24

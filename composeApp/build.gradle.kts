@@ -41,6 +41,7 @@ kotlin {
             // data
             implementation(project(":data"))
             implementation(project(":data-ktor"))
+            implementation(project(":data-ktorfit"))
 
             // domain
             implementation(project(":domain"))
