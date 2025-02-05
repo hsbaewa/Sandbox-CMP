@@ -17,10 +17,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import kr.co.hs.sandbox.cmp.ui.AppTheme
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 import sandboxcmp.composeapp.generated.resources.Res
-import sandboxcmp.composeapp.generated.resources.compose_multiplatform
+import sandboxcmp.composeapp.generated.resources.locale_flag
+import sandboxcmp.composeapp.generated.resources.main_click_me_button
+import sandboxcmp.composeapp.generated.resources.main_title
+import sandboxcmp.composeapp.generated.resources.main_untranslatable
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -33,7 +37,7 @@ fun App() {
                 TopAppBar(
                     title = {
                         Text(
-                            text = "TopAppBar Title"
+                            text = stringResource(Res.string.main_title)
                         )
                     }
                 )
@@ -55,8 +59,9 @@ private fun Content(
 ) {
     var showContent by remember { mutableStateOf(false) }
     Column(modifier, horizontalAlignment = Alignment.CenterHorizontally) {
+        Text(stringResource(Res.string.main_untranslatable))
         Button(onClick = { showContent = !showContent }) {
-            Text("Click me!")
+            Text(stringResource(Res.string.main_click_me_button))
         }
         AnimatedVisibility(showContent) {
             val greeting = remember { Greeting().greet() }
@@ -64,7 +69,7 @@ private fun Content(
                 Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Image(painterResource(Res.drawable.compose_multiplatform), null)
+                Image(painterResource(Res.drawable.locale_flag), null)
                 Text("Compose: $greeting")
             }
         }
