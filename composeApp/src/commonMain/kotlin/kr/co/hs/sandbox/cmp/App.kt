@@ -36,7 +36,10 @@ import sandboxcmp.composeapp.generated.resources.main_untranslatable
 fun App() {
     try {
         startKoin {
-            modules(kr.co.hs.sandbox.data.di.repositoryModule)
+            modules(
+                kr.co.hs.sandbox.data.di.repositoryModule,
+                kr.co.hs.sandbox.data.ktorfit.di.repositoryModule
+            )
         }
     } catch (_: Exception) {
         // A Koin Application has already been started
@@ -83,6 +86,7 @@ private fun Content(
         AnimatedVisibility(showContent) {
             val os by platformInfoViewModel.os.collectAsState()
             val commonText by commonInfoViewModel.text.collectAsState()
+            val remoteText by commonInfoViewModel.remoteText.collectAsState()
 
             Column(
                 Modifier.fillMaxWidth(),
@@ -91,6 +95,7 @@ private fun Content(
                 Image(painterResource(Res.drawable.locale_flag), null)
                 os?.let { os -> Text("Compose: $os") }
                 commonText?.let { t -> Text("Common Text: $t") }
+                remoteText?.let { t -> Text("Remote Text: $t") }
             }
         }
     }

@@ -31,6 +31,8 @@ dependencyResolutionManagement {
 include(":composeApp")
 
 // data
+include(":data-ktor")
+include(":data-ktorfit")
 include(":data")
 
 // domain
