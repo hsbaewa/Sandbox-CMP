@@ -1,10 +1,6 @@
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
-
-    alias(libs.plugins.kotlinSerialization)
-    alias(libs.plugins.ksp)
-    alias(libs.plugins.ktorfit)
 }
 
 kotlin {
@@ -37,20 +33,10 @@ kotlin {
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
 
-            implementation(project(":data-ktor"))
-
             implementation(project(":domain"))
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
-        }
-        androidMain.dependencies {
-            // ktor
-            implementation(libs.ktor.client.okhttp)
-        }
-        iosMain.dependencies {
-            // ktor
-            implementation(libs.ktor.client.darwin)
         }
     }
 }
