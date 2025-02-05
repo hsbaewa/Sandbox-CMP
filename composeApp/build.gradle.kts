@@ -40,6 +40,7 @@ kotlin {
         commonMain.dependencies {
             // data
             implementation(project(":data"))
+            implementation(project(":data-ktor"))
 
             // domain
             implementation(project(":domain"))

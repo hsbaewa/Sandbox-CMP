@@ -31,6 +31,7 @@ dependencyResolutionManagement {
 include(":composeApp")
 
 // data
+include(":data-ktor")
 include(":data")
 
 // domain

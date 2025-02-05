@@ -13,14 +13,14 @@ kotlin {
             }
         }
     }
-    
+
     listOf(
         iosX64(),
         iosArm64(),
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "data"
+            baseName = "data-ktor"
             isStatic = true
         }
     }
@@ -28,14 +28,16 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             //put your multiplatform dependencies here
-            implementation(libs.kotlinx.coroutines.core)
 
             // koin
             implementation(project.dependencies.platform(libs.koin.bom))
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
 
-            implementation(project(":data-ktor"))
+            // ktor
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.serialization.kotlinx.json)
+            implementation(libs.ktor.client.content.negotiation)
 
             implementation(project(":domain"))
         }
@@ -54,7 +56,7 @@ kotlin {
 }
 
 android {
-    namespace = "kr.co.hs.sandbox.data"
+    namespace = "kr.co.hs.sandbox.data.ktor"
     compileSdk = 34
     defaultConfig {
         minSdk = 24
