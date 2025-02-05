@@ -1,4 +1,10 @@
 [versions]
+# Google accompanist
+accompanistSystemuicontroller = "0.27.0"
+
+# coroutine #
+coroutineVersion = "1.8.1"
+
 agp = "8.5.2"
 android-compileSdk = "34"
 android-minSdk = "24"
@@ -15,10 +21,15 @@ compose-multiplatform = "1.7.0"
 junit = "4.13.2"
 kotlin = "2.1.0"
 
-# Google accompanist
-accompanistSystemuicontroller = "0.27.0"
 
 [libraries]
+# Google accompanist
+accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanistSystemuicontroller" }
+
+# coroutine #
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutineVersion" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutineVersion" }
+
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -31,9 +42,6 @@ androidx-constraintlayout = { group = "androidx.constraintlayout", name = "const
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
 androidx-lifecycle-viewmodel = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-viewmodel", version.ref = "androidx-lifecycle" }
 androidx-lifecycle-runtime-compose = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
-
-# Google accompanist
-accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanistSystemuicontroller" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

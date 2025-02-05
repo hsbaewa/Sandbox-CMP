@@ -49,6 +49,9 @@ kotlin {
 
             // material3
             implementation(compose.material3)
+
+            // domain
+            implementation(project(":domain"))
         }
     }
 }

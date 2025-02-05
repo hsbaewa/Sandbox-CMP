@@ -15,7 +15,17 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
+import kr.co.hs.domain.usecase.NoErrorUseCase
 import kr.co.hs.sandbox.cmp.ui.AppTheme
+import kr.co.hs.sandbox.domain.usecase.GetCommonInfoUseCase
+import kr.co.hs.sandbox.domain.usecase.GetPlatformInfoUseCase
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -64,13 +74,44 @@ private fun Content(
             Text(stringResource(Res.string.main_click_me_button))
         }
         AnimatedVisibility(showContent) {
-            val greeting = remember { Greeting().greet() }
+            var os by remember { mutableStateOf<String?>(null) }
+            var commonText by remember { mutableStateOf<String?>(null) }
+
+            LaunchedEffect(Unit) {
+                val getPlatformInfo = GetPlatformInfoUseCase()
+                getPlatformInfo()
+                    .flowOn(Dispatchers.IO)
+                    .map {
+                        when (it) {
+                            is NoErrorUseCase.Result.Exception -> throw it.t
+                            is NoErrorUseCase.Result.Success -> it.data
+                        }
+                    }
+                    .onEach { os = it.os }
+                    .catch { os = it.message }
+                    .launchIn(this)
+
+                val getCommonInfo = GetCommonInfoUseCase()
+                getCommonInfo()
+                    .flowOn(Dispatchers.IO)
+                    .map {
+                        when (it) {
+                            is NoErrorUseCase.Result.Exception -> throw it.t
+                            is NoErrorUseCase.Result.Success -> it.data
+                        }
+                    }
+                    .onEach { commonText = it.text }
+                    .catch { commonText = it.message }
+                    .launchIn(this)
+            }
+
             Column(
                 Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Image(painterResource(Res.drawable.locale_flag), null)
-                Text("Compose: $greeting")
+                os?.let { os -> Text("Compose: $os") }
+                commonText?.let { t -> Text("Common Text: $t") }
             }
         }
     }
