@@ -38,6 +38,18 @@ kotlin {
             implementation(libs.accompanist.systemuicontroller)
         }
         commonMain.dependencies {
+            // data
+            implementation(project(":data"))
+
+            // domain
+            implementation(project(":domain"))
+
+            // material3
+            implementation(compose.material3)
+
+            // viewmodel
+            implementation(libs.androidx.lifecycle.viewmodel.compose)
+
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material)
@@ -46,15 +58,6 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
-
-            // material3
-            implementation(compose.material3)
-
-            // data
-            implementation(project(":data"))
-
-            // domain
-            implementation(project(":domain"))
         }
     }
 }
