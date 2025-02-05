@@ -2,18 +2,20 @@ package kr.co.hs.sandbox.domain.usecase
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kr.co.hs.domain.usecase.NoErrorUseCase
 import kr.co.hs.sandbox.domain.entity.CommonInfoEntity
-import kr.co.hs.sandbox.domain.entity.impl.DefaultCommonInfoEntity
+import kr.co.hs.sandbox.domain.repository.CommonInfoRepository
 
-class GetCommonInfoUseCase : NoErrorUseCase<Unit, CommonInfoEntity>() {
+class GetCommonInfoUseCase(
+    private val repository: CommonInfoRepository
+) : NoErrorUseCase<Unit, CommonInfoEntity>() {
     operator fun invoke() = invoke(Unit)
 
     override fun invoke(
         param: Unit
-    ): Flow<Result<CommonInfoEntity>> = flowOf(DefaultCommonInfoEntity())
+    ): Flow<Result<CommonInfoEntity>> = repository
+        .flowOfCommonInfo()
         .map { Result.Success(it) }
         .catch<Result<CommonInfoEntity>> { emit(Result.Exception(it)) }
 }

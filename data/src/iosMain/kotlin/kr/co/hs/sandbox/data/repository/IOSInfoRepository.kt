@@ -1,0 +1,17 @@
+package kr.co.hs.sandbox.data.repository
+
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+import kr.co.hs.sandbox.data.Mapper.toDomain
+import kr.co.hs.sandbox.data.datasource.IOSInfoDataSource
+import kr.co.hs.sandbox.data.datasource.PlatformInfoDataSource
+import kr.co.hs.sandbox.domain.entity.PlatformInfoEntity
+import kr.co.hs.sandbox.domain.repository.PlatformInfoRepository
+
+internal class IOSInfoRepository(
+    private val dataSource: PlatformInfoDataSource = IOSInfoDataSource()
+) : PlatformInfoRepository {
+    override fun flowOfPlatformInfo(): Flow<PlatformInfoEntity> = dataSource
+        .flowOfPlatformData()
+        .map { it.toDomain() }
+}

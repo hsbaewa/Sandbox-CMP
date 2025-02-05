@@ -2,18 +2,20 @@ package kr.co.hs.sandbox.domain.usecase
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kr.co.hs.domain.usecase.NoErrorUseCase
 import kr.co.hs.sandbox.domain.entity.PlatformInfoEntity
-import kr.co.hs.sandbox.domain.getPlatformInfoEntity
+import kr.co.hs.sandbox.domain.repository.PlatformInfoRepository
 
-class GetPlatformInfoUseCase : NoErrorUseCase<Unit, PlatformInfoEntity>() {
+class GetPlatformInfoUseCase(
+    private val repository: PlatformInfoRepository
+) : NoErrorUseCase<Unit, PlatformInfoEntity>() {
     operator fun invoke() = invoke(Unit)
 
     override fun invoke(
         param: Unit
-    ): Flow<Result<PlatformInfoEntity>> = flowOf(getPlatformInfoEntity())
+    ): Flow<Result<PlatformInfoEntity>> = repository
+        .flowOfPlatformInfo()
         .map { Result.Success(it) }
         .catch<Result<PlatformInfoEntity>> { emit(Result.Exception(it)) }
 }
