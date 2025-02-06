@@ -20,6 +20,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Robolectric for instrumentation -->
+        <activity android:name="androidx.activity.ComponentActivity" />
     </application>
 
 </manifest>

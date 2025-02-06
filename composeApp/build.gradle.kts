@@ -1,6 +1,7 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSetTree
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -18,6 +19,10 @@ kotlin {
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_17)
         }
+
+        // Robolectric for instrumentation
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        instrumentedTestVariant.sourceSetTree.set(KotlinSourceSetTree.test)
     }
 
     listOf(
@@ -91,6 +96,9 @@ android {
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
+
+        // Robolectric for instrumentation
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     packaging {
         resources {
@@ -106,10 +114,17 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
+
+    // Robolectric for instrumentation
+    apply(plugin = libs.plugins.junit5.robolectric.get().pluginId)
 }
 
 dependencies {
     debugImplementation(compose.uiTooling)
+
+    // Robolectric for instrumentation
+    androidTestImplementation(libs.ui.test.junit4.android)
+    debugImplementation(libs.ui.test.manifest)
 }
 
 /**
@@ -217,4 +232,9 @@ kover {
             }
         }
     }
+}
+
+// Robolectric for instrumentation : 테스트 코드 동작 시 UsingContext를 단독으로 실행 하다가 충돌이 발생함을 방지.
+tasks.withType<Test>().configureEach {
+    exclude("kr/co/hs/sandbox/cmp/UsingContext.class")
 }
