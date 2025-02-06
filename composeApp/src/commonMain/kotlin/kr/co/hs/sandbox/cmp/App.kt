@@ -21,6 +21,7 @@ import dev.gitlive.firebase.analytics.FirebaseAnalyticsEvents
 import dev.gitlive.firebase.analytics.FirebaseAnalyticsParam
 import dev.gitlive.firebase.analytics.analytics
 import dev.gitlive.firebase.analytics.logEvent
+import dev.gitlive.firebase.crashlytics.crashlytics
 import kr.co.hs.sandbox.cmp.ui.theme.AppTheme
 import kr.co.hs.sandbox.cmp.ui.CommonInfoViewModel
 import kr.co.hs.sandbox.cmp.ui.PlatformInfoViewModel
@@ -52,6 +53,9 @@ fun App() {
         반복해서 호출되는 경우 iOS 단말에서 오류(A Koin Application has already been started)가 발생하여 예외 무시하도록 수정.
          */
     }
+
+    Firebase.analytics.setAnalyticsCollectionEnabled(true)
+    Firebase.crashlytics.setCrashlyticsCollectionEnabled(true)
 
     LaunchedEffect(Unit) {
         Firebase.analytics.logEvent(FirebaseAnalyticsEvents.APP_OPEN) {

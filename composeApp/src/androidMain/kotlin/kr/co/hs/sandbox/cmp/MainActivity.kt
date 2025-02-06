@@ -10,14 +10,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.google.firebase.analytics.ktx.analytics
-import com.google.firebase.ktx.Firebase
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Firebase.analytics.setAnalyticsCollectionEnabled(true)
-
         WindowCompat.setDecorFitsSystemWindows(window, false)
         enableEdgeToEdge()
 
