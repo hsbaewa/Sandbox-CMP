@@ -1,4 +1,4 @@
-package kr.co.hs.sandbox.cmp
+package kr.co.hs.sandbox.cmp.domain
 
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn

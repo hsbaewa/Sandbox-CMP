@@ -9,6 +9,8 @@ plugins {
 
     // kover : coverageReport
     alias(libs.plugins.kover) apply false
+    // Robolectric for instrumentation
+    alias(libs.plugins.junit5.robolectric) apply false
 
     alias(libs.plugins.kotlinSerialization) apply false
     alias(libs.plugins.ksp) apply false

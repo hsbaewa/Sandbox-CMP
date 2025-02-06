@@ -16,6 +16,8 @@ kotlinx-serialization-json = "1.8.0"
 
 # testing #
 kover = "0.8.3"
+ui-test = "1.7.7"
+junit5-robolectric = "0.9.0"
 
 agp = "8.5.2"
 android-compileSdk = "34"
@@ -67,6 +69,10 @@ ktorfit-lib = { module = "de.jensklingenberg.ktorfit:ktorfit-lib", version.ref =
 # kotlinx json #
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization-json" }
 
+# testing #
+ui-test-junit4-android = { module = "androidx.compose.ui:ui-test-junit4-android", version.ref = "ui-test" }
+ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "ui-test" }
+
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -83,6 +89,7 @@ androidx-lifecycle-runtime-compose = { group = "org.jetbrains.androidx.lifecycle
 [plugins]
 # testing #
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
+junit5-robolectric = { id = "tech.apter.junit5.jupiter.robolectric-extension-gradle-plugin", version.ref = "junit5-robolectric" }
 
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
