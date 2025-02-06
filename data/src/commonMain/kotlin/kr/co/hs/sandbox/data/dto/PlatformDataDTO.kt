@@ -1,6 +1,6 @@
 package kr.co.hs.sandbox.data.dto
 
-data class PlatformDataDTO(
+internal data class PlatformDataDTO(
     val os: OS,
     val versionName: String
 ) {
