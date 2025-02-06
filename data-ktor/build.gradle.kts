@@ -3,6 +3,9 @@ plugins {
     alias(libs.plugins.androidLibrary)
 
     alias(libs.plugins.kotlinSerialization)
+
+    // kover : coverageReport
+    alias(libs.plugins.kover)
 }
 
 kotlin {

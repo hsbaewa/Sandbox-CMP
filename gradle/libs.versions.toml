@@ -14,6 +14,9 @@ ktor = "3.0.3"
 # kotlinx json #
 kotlinx-serialization-json = "1.8.0"
 
+# testing #
+kover = "0.8.3"
+
 agp = "8.5.2"
 android-compileSdk = "34"
 android-minSdk = "24"
@@ -49,6 +52,7 @@ kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-t
 koin-bom = { module = "io.insert-koin:koin-bom", version.ref = "koin-bom" }
 koin-core = { module = "io.insert-koin:koin-core" }
 koin-compose = { module = "io.insert-koin:koin-compose" }
+koin-test = { module = "io.insert-koin:koin-test" }
 
 # ktor #
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
@@ -77,6 +81,9 @@ androidx-lifecycle-viewmodel = { group = "org.jetbrains.androidx.lifecycle", nam
 androidx-lifecycle-runtime-compose = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
 
 [plugins]
+# testing #
+kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
+
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
 composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
