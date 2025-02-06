@@ -8,7 +8,7 @@ import kr.co.hs.sandbox.data.dto.PlatformDataDTO
 internal class AndroidInfoDataSource : PlatformInfoDataSource {
     override fun flowOfPlatformData(): Flow<PlatformDataDTO> = flow {
         val os = PlatformDataDTO.OS.Android
-        val version = Build.VERSION.RELEASE
+        val version = Build.VERSION.RELEASE ?: "Unknown version"
         val dto = PlatformDataDTO(
             os = os,
             versionName = version
