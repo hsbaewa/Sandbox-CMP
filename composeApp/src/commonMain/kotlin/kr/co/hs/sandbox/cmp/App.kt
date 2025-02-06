@@ -16,6 +16,16 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
+import dev.gitlive.firebase.Firebase
+import dev.gitlive.firebase.analytics.FirebaseAnalyticsEvents
+import dev.gitlive.firebase.analytics.FirebaseAnalyticsParam
+import dev.gitlive.firebase.analytics.analytics
+import dev.gitlive.firebase.analytics.logEvent
+import dev.gitlive.firebase.crashlytics.crashlytics
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kr.co.hs.sandbox.cmp.ui.theme.AppTheme
 import kr.co.hs.sandbox.cmp.ui.CommonInfoViewModel
 import kr.co.hs.sandbox.cmp.ui.PlatformInfoViewModel
@@ -48,6 +58,20 @@ fun App() {
          */
     }
 
+    runCatching { Firebase.analytics.setAnalyticsCollectionEnabled(true) }.getOrNull()
+    runCatching { Firebase.crashlytics.setCrashlyticsCollectionEnabled(true) }.getOrNull()
+
+    LaunchedEffect(Unit) {
+        flow { emit(Firebase.analytics) }
+            .onEach {
+                it.logEvent(FirebaseAnalyticsEvents.APP_OPEN) {
+                    param(FirebaseAnalyticsParam.ITEM_NAME, "Main Composable Open")
+                }
+            }
+            .catch {}
+            .launchIn(this)
+    }
+
     AppTheme {
 
         Scaffold(
@@ -78,6 +102,20 @@ private fun Content(
     commonInfoViewModel: CommonInfoViewModel = viewModel { CommonInfoViewModel() }
 ) {
     var showContent by remember { mutableStateOf(false) }
+
+    LaunchedEffect(showContent) {
+        if (showContent) {
+            flow { emit(Firebase.analytics) }
+                .onEach {
+                    it.logEvent(FirebaseAnalyticsEvents.VIEW_ITEM) {
+                        param(FirebaseAnalyticsParam.ITEM_NAME, "Click Button!!")
+                    }
+                }
+                .catch {}
+                .launchIn(this)
+        }
+    }
+
     Column(modifier, horizontalAlignment = Alignment.CenterHorizontally) {
         Text(stringResource(Res.string.main_untranslatable))
         Button(onClick = { showContent = !showContent }) {
