@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.serialization.json.Json
 import kr.co.hs.sandbox.data.ktorfit.dto.ExampleResponseDTO
 
-class DefaultExampleRemoteSource : ExampleRemoteSource {
+internal class DefaultExampleRemoteSource : ExampleRemoteSource {
     override fun flowOfExampleResponse(): Flow<ExampleResponseDTO> = flow {
         val client = HttpClient {
             install(ContentNegotiation) {

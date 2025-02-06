@@ -8,7 +8,7 @@ import kr.co.hs.sandbox.data.ktorfit.datasource.ExampleRemoteSource
 import kr.co.hs.sandbox.domain.entity.RemoteInfoEntity
 import kr.co.hs.sandbox.domain.repository.RemoteInfoRepository
 
-class DefaultRemoteInfoRepository(
+internal class DefaultRemoteInfoRepository(
     private val dataSource: ExampleRemoteSource = DefaultExampleRemoteSource()
 ) : RemoteInfoRepository {
     override fun flowOfRemoteInfo(): Flow<RemoteInfoEntity> = dataSource
