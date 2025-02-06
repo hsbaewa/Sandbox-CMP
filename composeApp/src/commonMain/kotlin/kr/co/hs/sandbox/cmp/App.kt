@@ -22,6 +22,10 @@ import dev.gitlive.firebase.analytics.FirebaseAnalyticsParam
 import dev.gitlive.firebase.analytics.analytics
 import dev.gitlive.firebase.analytics.logEvent
 import dev.gitlive.firebase.crashlytics.crashlytics
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kr.co.hs.sandbox.cmp.ui.theme.AppTheme
 import kr.co.hs.sandbox.cmp.ui.CommonInfoViewModel
 import kr.co.hs.sandbox.cmp.ui.PlatformInfoViewModel
@@ -54,13 +58,18 @@ fun App() {
          */
     }
 
-    Firebase.analytics.setAnalyticsCollectionEnabled(true)
-    Firebase.crashlytics.setCrashlyticsCollectionEnabled(true)
+    runCatching { Firebase.analytics.setAnalyticsCollectionEnabled(true) }.getOrNull()
+    runCatching { Firebase.crashlytics.setCrashlyticsCollectionEnabled(true) }.getOrNull()
 
     LaunchedEffect(Unit) {
-        Firebase.analytics.logEvent(FirebaseAnalyticsEvents.APP_OPEN) {
-            param(FirebaseAnalyticsParam.ITEM_NAME, "Main Composable Open")
-        }
+        flow { emit(Firebase.analytics) }
+            .onEach {
+                it.logEvent(FirebaseAnalyticsEvents.APP_OPEN) {
+                    param(FirebaseAnalyticsParam.ITEM_NAME, "Main Composable Open")
+                }
+            }
+            .catch {}
+            .launchIn(this)
     }
 
     AppTheme {
@@ -96,9 +105,14 @@ private fun Content(
 
     LaunchedEffect(showContent) {
         if (showContent) {
-            Firebase.analytics.logEvent(FirebaseAnalyticsEvents.VIEW_ITEM) {
-                param(FirebaseAnalyticsParam.ITEM_NAME, "Click Button!!")
-            }
+            flow { emit(Firebase.analytics) }
+                .onEach {
+                    it.logEvent(FirebaseAnalyticsEvents.VIEW_ITEM) {
+                        param(FirebaseAnalyticsParam.ITEM_NAME, "Click Button!!")
+                    }
+                }
+                .catch {}
+                .launchIn(this)
         }
     }
 
