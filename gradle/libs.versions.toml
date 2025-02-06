@@ -1,4 +1,9 @@
 [versions]
+# Firebase
+google-services = "4.4.2"
+firebaseBom = "33.8.0"
+kotlin-firebase = "2.1.0"
+
 # Google accompanist
 accompanistSystemuicontroller = "0.27.0"
 
@@ -40,6 +45,11 @@ ksp = "2.0.20-1.0.25"
 ktorfit = "2.1.0"
 
 [libraries]
+# Firebase
+firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
+firebase-analytics-ktx = { module = "com.google.firebase:firebase-analytics-ktx" }
+kotlin-firebase-analytics = { module = "dev.gitlive:firebase-analytics", version.ref = "kotlin-firebase" }
+
 # Google accompanist
 accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanistSystemuicontroller" }
 
@@ -87,6 +97,9 @@ androidx-lifecycle-viewmodel = { group = "org.jetbrains.androidx.lifecycle", nam
 androidx-lifecycle-runtime-compose = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
 
 [plugins]
+# Firebase #
+google-services = { id = "com.google.gms.google-services", version.ref = "google-services" }
+
 # testing #
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 junit5-robolectric = { id = "tech.apter.junit5.jupiter.robolectric-extension-gradle-plugin", version.ref = "junit5-robolectric" }

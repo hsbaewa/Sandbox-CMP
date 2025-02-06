@@ -11,6 +11,9 @@ plugins {
 
     // kover : coverageReport
     alias(libs.plugins.kover)
+
+    // Firebase
+    alias(libs.plugins.google.services)
 }
 
 kotlin {
@@ -44,6 +47,10 @@ kotlin {
 
             // system ui
             implementation(libs.accompanist.systemuicontroller)
+
+            // Firebase
+            implementation(project.dependencies.platform(libs.firebase.bom))
+            implementation(libs.firebase.analytics.ktx)
         }
         commonMain.dependencies {
             // data
@@ -73,6 +80,15 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
+
+            // firebase
+            /**
+             * ### 참고 ###
+             * 공식 github : https://github.com/GitLiveApp/firebase-kotlin-sdk
+             * 사용 방법 : https://medium.com/@carlosgub/how-to-implement-firebase-firestore-in-kotlin-multiplatform-mobile-with-compose-multiplatform-32b66cdba9f7
+             */
+            implementation(libs.kotlin.firebase.analytics)
+
         }
         commonTest.dependencies {
             // koin

@@ -16,6 +16,11 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
+import dev.gitlive.firebase.Firebase
+import dev.gitlive.firebase.analytics.FirebaseAnalyticsEvents
+import dev.gitlive.firebase.analytics.FirebaseAnalyticsParam
+import dev.gitlive.firebase.analytics.analytics
+import dev.gitlive.firebase.analytics.logEvent
 import kr.co.hs.sandbox.cmp.ui.theme.AppTheme
 import kr.co.hs.sandbox.cmp.ui.CommonInfoViewModel
 import kr.co.hs.sandbox.cmp.ui.PlatformInfoViewModel
@@ -48,6 +53,12 @@ fun App() {
          */
     }
 
+    LaunchedEffect(Unit) {
+        Firebase.analytics.logEvent(FirebaseAnalyticsEvents.APP_OPEN) {
+            param(FirebaseAnalyticsParam.ITEM_NAME, "Main Composable Open")
+        }
+    }
+
     AppTheme {
 
         Scaffold(
@@ -78,6 +89,15 @@ private fun Content(
     commonInfoViewModel: CommonInfoViewModel = viewModel { CommonInfoViewModel() }
 ) {
     var showContent by remember { mutableStateOf(false) }
+
+    LaunchedEffect(showContent) {
+        if (showContent) {
+            Firebase.analytics.logEvent(FirebaseAnalyticsEvents.VIEW_ITEM) {
+                param(FirebaseAnalyticsParam.ITEM_NAME, "Click Button!!")
+            }
+        }
+    }
+
     Column(modifier, horizontalAlignment = Alignment.CenterHorizontally) {
         Text(stringResource(Res.string.main_untranslatable))
         Button(onClick = { showContent = !showContent }) {
