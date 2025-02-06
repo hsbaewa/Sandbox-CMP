@@ -14,6 +14,9 @@ ktor = "3.0.3"
 # kotlinx json #
 kotlinx-serialization-json = "1.8.0"
 
+# testing #
+kover = "0.8.3"
+
 agp = "8.5.2"
 android-compileSdk = "34"
 android-minSdk = "24"
@@ -78,6 +81,9 @@ androidx-lifecycle-viewmodel = { group = "org.jetbrains.androidx.lifecycle", nam
 androidx-lifecycle-runtime-compose = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
 
 [plugins]
+# testing #
+kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
+
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
 composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }

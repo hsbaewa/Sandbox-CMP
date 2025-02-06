@@ -7,6 +7,9 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+
+    // kover : coverageReport
+    alias(libs.plugins.kover)
 }
 
 kotlin {
@@ -109,3 +112,109 @@ dependencies {
     debugImplementation(compose.uiTooling)
 }
 
+/**
+ * kover config
+ */
+dependencies {
+    // module - data
+    kover(project(":data"))
+    kover(project(":data-ktor"))
+    kover(project(":data-ktorfit"))
+
+    // module - domain
+    kover(project(":domain"))
+}
+
+kover {
+    reports {
+        // filters for all report types of all build variants
+        filters {
+            excludes {
+                androidGeneratedClasses()
+                classes(
+                    "*.usecase.*UseCase_Factory",
+
+                    "*.di.*_Bind*Factory\$InstanceHolder",
+                    "*.di.*_Bind*Factory",
+
+                    "*.BR",
+                    "*.*DataBinderMapperImpl",
+                    "*.*DataBinderMapperImpl\$InnerBrLookup",
+                    "*.*DataBinderMapperImpl\$InnerLayoutIdLookup",
+                    "*.DataBindingTriggerClass",
+                    "*.*_MembersInjector",
+                )
+            }
+            includes {
+                classes(
+                    "kr.co.hs.sandbox.*"
+                )
+            }
+        }
+        variant("debug") {
+            // filters for all report types only for 'release' build variant
+            filters {
+                excludes {
+                    androidGeneratedClasses()
+                    classes(
+                        "*.usecase.*UseCase_Factory",
+                        "*.usecase.*UseCase_Factory\$InstanceHolder",
+
+                        "*.di.*_Bind*Factory\$InstanceHolder",
+                        "*.di.*_Bind*Factory",
+
+                        "*.BR",
+                        "*.*DataBinderMapperImpl",
+                        "*.*DataBinderMapperImpl\$InnerBrLookup",
+                        "*.*DataBinderMapperImpl\$InnerLayoutIdLookup",
+                        "*.DataBindingTriggerClass",
+                        "*.*_MembersInjector",
+                    )
+                }
+                includes {
+                    classes(
+                        "kr.co.hs.sandbox.*"
+                    )
+                }
+
+            }
+        }
+
+
+        variant("release") {
+            // verification ony for 'release' build variant
+            verify {
+                rule {
+                    minBound(50)
+                }
+            }
+
+            // filters for all report types only for 'release' build variant
+            filters {
+                excludes {
+                    androidGeneratedClasses()
+                    classes(
+                        "*.usecase.*UseCase_Factory",
+                        "*.usecase.*UseCase_Factory\$InstanceHolder",
+
+                        "*.di.*_Bind*Factory\$InstanceHolder",
+                        "*.di.*_Bind*Factory",
+
+                        "*.BR",
+                        "*.*DataBinderMapperImpl",
+                        "*.*DataBinderMapperImpl\$InnerBrLookup",
+                        "*.*DataBinderMapperImpl\$InnerLayoutIdLookup",
+                        "*.DataBindingTriggerClass",
+                        "*.*_MembersInjector",
+                    )
+                }
+                includes {
+                    classes(
+                        "kr.co.hs.sandbox.*"
+                    )
+                }
+
+            }
+        }
+    }
+}

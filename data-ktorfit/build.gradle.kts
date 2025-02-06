@@ -5,6 +5,9 @@ plugins {
     alias(libs.plugins.kotlinSerialization)
     alias(libs.plugins.ksp)
     alias(libs.plugins.ktorfit)
+
+    // kover : coverageReport
+    alias(libs.plugins.kover)
 }
 
 kotlin {
