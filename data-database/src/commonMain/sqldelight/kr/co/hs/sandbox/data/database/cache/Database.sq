@@ -1,0 +1,13 @@
+CREATE TABLE Board (
+    boardTitle TEXT NOT NULL,
+    boardContents TEXT NOT NULL
+);
+
+insertBoard:
+INSERT INTO Board(boardTitle, boardContents) VALUES(?, ?);
+
+selectAllBoard:
+SELECT * FROM Board;
+
+selectBoard:
+SELECT * FROM Board WHERE boardTitle = ?;

@@ -1,5 +1,7 @@
 package kr.co.hs.sandbox.domain.di
 
+import kr.co.hs.sandbox.domain.usecase.CreateBoardUseCase
+import kr.co.hs.sandbox.domain.usecase.GetBoardUseCase
 import kr.co.hs.sandbox.domain.usecase.GetButtonClickCountUseCase
 import kr.co.hs.sandbox.domain.usecase.GetCommonInfoUseCase
 import kr.co.hs.sandbox.domain.usecase.GetPlatformInfoUseCase
@@ -14,4 +16,7 @@ val usecaseModule = module {
 
     single<GetButtonClickCountUseCase> { GetButtonClickCountUseCase() }
     single<UpCountButtonClickUseCase> { UpCountButtonClickUseCase() }
+
+    single<CreateBoardUseCase> { CreateBoardUseCase() }
+    single<GetBoardUseCase> { GetBoardUseCase() }
 }

@@ -5,6 +5,9 @@ crashlytics = "3.0.2"
 firebaseBom = "33.9.0"
 kotlin-firebase = "2.1.0"
 
+# Database #
+sqlDelight = "2.0.2"
+
 # Google accompanist
 accompanistSystemuicontroller = "0.27.0"
 
@@ -55,6 +58,11 @@ firebase-crashlytics-ktx = { module = "com.google.firebase:firebase-crashlytics-
 # Firebase for multiplatform
 kotlin-firebase-analytics = { module = "dev.gitlive:firebase-analytics", version.ref = "kotlin-firebase" }
 kotlin-firebase-crashlytics = { module = "dev.gitlive:firebase-crashlytics", version.ref = "kotlin-firebase" }
+
+# Database #
+sqldelight-android-driver = { module = "app.cash.sqldelight:android-driver", version.ref = "sqlDelight" }
+sqldelight-native-driver = { module = "app.cash.sqldelight:native-driver", version.ref = "sqlDelight" }
+sqldelight-runtime = { module = "app.cash.sqldelight:runtime", version.ref = "sqlDelight" }
 
 # Google accompanist
 accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanistSystemuicontroller" }
@@ -111,6 +119,9 @@ androidx-lifecycle-runtime-compose = { group = "org.jetbrains.androidx.lifecycle
 # Firebase #
 google-services = { id = "com.google.gms.google-services", version.ref = "google-services" }
 crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "crashlytics" }
+
+# Database #
+sqldelight = { id = "app.cash.sqldelight", version.ref = "sqlDelight" }
 
 # testing #
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }

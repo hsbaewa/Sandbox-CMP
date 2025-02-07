@@ -35,6 +35,7 @@ include(":data-ktor")
 include(":data-ktorfit")
 include(":data")
 include(":data-preference")
+include(":data-database")
 
 // domain
 include(":domain")
