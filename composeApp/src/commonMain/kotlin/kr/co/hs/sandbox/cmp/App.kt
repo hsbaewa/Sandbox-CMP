@@ -33,6 +33,7 @@ import kr.co.hs.sandbox.cmp.ui.PreferenceViewModel
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.koin.core.context.loadKoinModules
 
 import sandboxcmp.composeapp.generated.resources.Res
 import sandboxcmp.composeapp.generated.resources.locale_flag
@@ -44,6 +45,15 @@ import sandboxcmp.composeapp.generated.resources.main_untranslatable
 @Composable
 @Preview
 fun App() {
+
+    loadKoinModules(
+        listOf(
+            kr.co.hs.sandbox.data.di.repositoryModule,
+            kr.co.hs.sandbox.data.ktorfit.di.repositoryModule,
+            kr.co.hs.sandbox.data.preference.di.repositoryModule
+        )
+    )
+
     runCatching { Firebase.analytics.setAnalyticsCollectionEnabled(true) }.getOrNull()
     runCatching { Firebase.crashlytics.setCrashlyticsCollectionEnabled(true) }.getOrNull()
 

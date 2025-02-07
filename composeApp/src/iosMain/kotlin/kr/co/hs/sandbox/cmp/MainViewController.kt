@@ -5,13 +5,7 @@ import org.koin.core.context.startKoin
 
 fun MainViewController() = ComposeUIViewController {
     try {
-        startKoin {
-            modules(
-                kr.co.hs.sandbox.data.di.repositoryModule,
-                kr.co.hs.sandbox.data.ktorfit.di.repositoryModule,
-                kr.co.hs.sandbox.data.preference.di.repositoryModule
-            )
-        }
+        startKoin {}
     } catch (_: Exception) {
         // A Koin Application has already been started
         /**

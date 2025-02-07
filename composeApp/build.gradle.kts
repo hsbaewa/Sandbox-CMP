@@ -70,6 +70,12 @@ kotlin {
             // koin
             implementation(libs.koin.android)
         }
+
+        androidNativeTest.dependencies {
+            // koin
+            implementation(libs.koin.android)
+        }
+
         commonMain.dependencies {
             // data
             implementation(project(":data"))

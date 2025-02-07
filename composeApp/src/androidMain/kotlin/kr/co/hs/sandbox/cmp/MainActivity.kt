@@ -21,11 +21,6 @@ class MainActivity : ComponentActivity() {
         startKoin {
             androidLogger()
             androidContext(applicationContext)
-            modules(
-                kr.co.hs.sandbox.data.di.repositoryModule,
-                kr.co.hs.sandbox.data.ktorfit.di.repositoryModule,
-                kr.co.hs.sandbox.data.preference.di.repositoryModule
-            )
         }
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
