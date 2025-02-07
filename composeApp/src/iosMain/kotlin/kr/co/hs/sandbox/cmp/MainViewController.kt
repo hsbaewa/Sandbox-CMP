@@ -8,7 +8,8 @@ fun MainViewController() = ComposeUIViewController {
         startKoin {
             modules(
                 kr.co.hs.sandbox.data.di.repositoryModule,
-                kr.co.hs.sandbox.data.ktorfit.di.repositoryModule
+                kr.co.hs.sandbox.data.ktorfit.di.repositoryModule,
+                kr.co.hs.sandbox.data.preference.di.repositoryModule
             )
         }
     } catch (_: Exception) {
