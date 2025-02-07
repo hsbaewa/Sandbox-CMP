@@ -82,6 +82,7 @@ kotlin {
             implementation(project(":data-ktor"))
             implementation(project(":data-ktorfit"))
             implementation(project(":data-preference"))
+            implementation(project(":data-database"))
 
             // domain
             implementation(project(":domain"))
@@ -190,6 +191,8 @@ dependencies {
     kover(project(":data"))
     kover(project(":data-ktor"))
     kover(project(":data-ktorfit"))
+    kover(project(":data-preference"))
+    kover(project(":data-database"))
 
     // module - domain
     kover(project(":domain"))

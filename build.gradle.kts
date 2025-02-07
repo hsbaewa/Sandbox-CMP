@@ -19,4 +19,7 @@ plugins {
     // Firebase
     alias(libs.plugins.google.services) apply false
     alias(libs.plugins.crashlytics) apply false
+
+    // Database
+    alias(libs.plugins.sqldelight) apply false
 }

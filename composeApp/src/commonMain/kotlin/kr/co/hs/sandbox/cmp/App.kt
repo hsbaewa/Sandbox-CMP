@@ -26,6 +26,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kr.co.hs.sandbox.cmp.ui.BoardViewModel
 import kr.co.hs.sandbox.cmp.ui.theme.AppTheme
 import kr.co.hs.sandbox.cmp.ui.CommonInfoViewModel
 import kr.co.hs.sandbox.cmp.ui.PlatformInfoViewModel
@@ -40,6 +41,7 @@ import sandboxcmp.composeapp.generated.resources.locale_flag
 import sandboxcmp.composeapp.generated.resources.main_click_me_button
 import sandboxcmp.composeapp.generated.resources.main_title
 import sandboxcmp.composeapp.generated.resources.main_untranslatable
+import kotlin.random.Random
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -50,7 +52,8 @@ fun App() {
         listOf(
             kr.co.hs.sandbox.data.di.repositoryModule,
             kr.co.hs.sandbox.data.ktorfit.di.repositoryModule,
-            kr.co.hs.sandbox.data.preference.di.repositoryModule
+            kr.co.hs.sandbox.data.preference.di.repositoryModule,
+            kr.co.hs.sandbox.data.database.di.repositoryModule
         )
     )
 
@@ -96,7 +99,8 @@ private fun Content(
     modifier: Modifier = Modifier,
     platformInfoViewModel: PlatformInfoViewModel = viewModel { PlatformInfoViewModel() },
     commonInfoViewModel: CommonInfoViewModel = viewModel { CommonInfoViewModel() },
-    preferenceViewModel: PreferenceViewModel = viewModel { PreferenceViewModel() }
+    preferenceViewModel: PreferenceViewModel = viewModel { PreferenceViewModel() },
+    boardViewModel: BoardViewModel = viewModel { BoardViewModel() }
 ) {
     var showContent by remember { mutableStateOf(false) }
 
@@ -114,13 +118,19 @@ private fun Content(
     }
 
     val clickCount by preferenceViewModel.clickCount.collectAsState()
+    val allBoards by boardViewModel.boards.collectAsState()
 
     Column(modifier, horizontalAlignment = Alignment.CenterHorizontally) {
         Text(stringResource(Res.string.main_untranslatable))
+        Text("board count : ${allBoards.size}")
         Button(
             onClick = {
                 showContent = !showContent
                 preferenceViewModel.flowOfUpCountButtonClick()
+                boardViewModel.flowOfCreate(
+                    Random.nextInt().toString(),
+                    Random.nextInt().toString()
+                )
             }
         ) {
             Text(stringResource(Res.string.main_click_me_button) + " $clickCount")
