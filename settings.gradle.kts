@@ -34,6 +34,7 @@ include(":composeApp")
 include(":data-ktor")
 include(":data-ktorfit")
 include(":data")
+include(":data-preference")
 
 // domain
 include(":domain")

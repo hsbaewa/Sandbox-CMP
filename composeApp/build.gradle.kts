@@ -66,12 +66,22 @@ kotlin {
             implementation(project.dependencies.platform(libs.firebase.bom))
             implementation(libs.firebase.analytics.ktx)
             implementation(libs.firebase.crashlytics.ktx)
+
+            // koin
+            implementation(libs.koin.android)
         }
+
+        androidNativeTest.dependencies {
+            // koin
+            implementation(libs.koin.android)
+        }
+
         commonMain.dependencies {
             // data
             implementation(project(":data"))
             implementation(project(":data-ktor"))
             implementation(project(":data-ktorfit"))
+            implementation(project(":data-preference"))
 
             // domain
             implementation(project(":domain"))

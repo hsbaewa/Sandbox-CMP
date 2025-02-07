@@ -29,10 +29,11 @@ import kotlinx.coroutines.flow.onEach
 import kr.co.hs.sandbox.cmp.ui.theme.AppTheme
 import kr.co.hs.sandbox.cmp.ui.CommonInfoViewModel
 import kr.co.hs.sandbox.cmp.ui.PlatformInfoViewModel
+import kr.co.hs.sandbox.cmp.ui.PreferenceViewModel
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import org.koin.core.context.startKoin
+import org.koin.core.context.loadKoinModules
 
 import sandboxcmp.composeapp.generated.resources.Res
 import sandboxcmp.composeapp.generated.resources.locale_flag
@@ -44,19 +45,14 @@ import sandboxcmp.composeapp.generated.resources.main_untranslatable
 @Composable
 @Preview
 fun App() {
-    try {
-        startKoin {
-            modules(
-                kr.co.hs.sandbox.data.di.repositoryModule,
-                kr.co.hs.sandbox.data.ktorfit.di.repositoryModule
-            )
-        }
-    } catch (_: Exception) {
-        // A Koin Application has already been started
-        /**
-        반복해서 호출되는 경우 iOS 단말에서 오류(A Koin Application has already been started)가 발생하여 예외 무시하도록 수정.
-         */
-    }
+
+    loadKoinModules(
+        listOf(
+            kr.co.hs.sandbox.data.di.repositoryModule,
+            kr.co.hs.sandbox.data.ktorfit.di.repositoryModule,
+            kr.co.hs.sandbox.data.preference.di.repositoryModule
+        )
+    )
 
     runCatching { Firebase.analytics.setAnalyticsCollectionEnabled(true) }.getOrNull()
     runCatching { Firebase.crashlytics.setCrashlyticsCollectionEnabled(true) }.getOrNull()
@@ -99,7 +95,8 @@ fun App() {
 private fun Content(
     modifier: Modifier = Modifier,
     platformInfoViewModel: PlatformInfoViewModel = viewModel { PlatformInfoViewModel() },
-    commonInfoViewModel: CommonInfoViewModel = viewModel { CommonInfoViewModel() }
+    commonInfoViewModel: CommonInfoViewModel = viewModel { CommonInfoViewModel() },
+    preferenceViewModel: PreferenceViewModel = viewModel { PreferenceViewModel() }
 ) {
     var showContent by remember { mutableStateOf(false) }
 
@@ -116,10 +113,17 @@ private fun Content(
         }
     }
 
+    val clickCount by preferenceViewModel.clickCount.collectAsState()
+
     Column(modifier, horizontalAlignment = Alignment.CenterHorizontally) {
         Text(stringResource(Res.string.main_untranslatable))
-        Button(onClick = { showContent = !showContent }) {
-            Text(stringResource(Res.string.main_click_me_button))
+        Button(
+            onClick = {
+                showContent = !showContent
+                preferenceViewModel.flowOfUpCountButtonClick()
+            }
+        ) {
+            Text(stringResource(Res.string.main_click_me_button) + " $clickCount")
         }
         AnimatedVisibility(showContent) {
             val os by platformInfoViewModel.os.collectAsState()

@@ -8,9 +8,15 @@ import androidx.compose.ui.platform.LocalInspectionMode
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.PreviewContextConfigurationEffect
 import org.junit.jupiter.api.extension.ExtendWith
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
+import org.koin.core.context.startKoin
+import org.koin.core.context.stopKoin
+import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowLog
 import tech.apter.junit.jupiter.robolectric.RobolectricExtension
+import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 
 /**
@@ -24,6 +30,11 @@ actual open class UsingContext {
     @BeforeTest
     open fun setUp() {
         ShadowLog.stream = System.out
+
+        startKoin {
+            androidLogger()
+            androidContext(RuntimeEnvironment.getApplication())
+        }
     }
 
     @SuppressLint("ComposableNaming")
@@ -33,5 +44,10 @@ actual open class UsingContext {
         CompositionLocalProvider(LocalInspectionMode provides true) {
             PreviewContextConfigurationEffect()
         }
+    }
+
+    @AfterTest
+    open fun setDown() {
+        stopKoin()
     }
 }
