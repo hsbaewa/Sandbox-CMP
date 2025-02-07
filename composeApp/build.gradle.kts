@@ -66,6 +66,9 @@ kotlin {
             implementation(project.dependencies.platform(libs.firebase.bom))
             implementation(libs.firebase.analytics.ktx)
             implementation(libs.firebase.crashlytics.ktx)
+
+            // koin
+            implementation(libs.koin.android)
         }
         commonMain.dependencies {
             // data

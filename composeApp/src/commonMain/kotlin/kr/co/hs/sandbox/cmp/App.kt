@@ -32,7 +32,6 @@ import kr.co.hs.sandbox.cmp.ui.PlatformInfoViewModel
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import org.koin.core.context.startKoin
 
 import sandboxcmp.composeapp.generated.resources.Res
 import sandboxcmp.composeapp.generated.resources.locale_flag
@@ -44,20 +43,6 @@ import sandboxcmp.composeapp.generated.resources.main_untranslatable
 @Composable
 @Preview
 fun App() {
-    try {
-        startKoin {
-            modules(
-                kr.co.hs.sandbox.data.di.repositoryModule,
-                kr.co.hs.sandbox.data.ktorfit.di.repositoryModule
-            )
-        }
-    } catch (_: Exception) {
-        // A Koin Application has already been started
-        /**
-        반복해서 호출되는 경우 iOS 단말에서 오류(A Koin Application has already been started)가 발생하여 예외 무시하도록 수정.
-         */
-    }
-
     runCatching { Firebase.analytics.setAnalyticsCollectionEnabled(true) }.getOrNull()
     runCatching { Firebase.crashlytics.setCrashlyticsCollectionEnabled(true) }.getOrNull()
 
