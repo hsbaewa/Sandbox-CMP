@@ -30,6 +30,9 @@ dependencyResolutionManagement {
 
 include(":composeApp")
 
+// presentation
+include(":presentation")
+
 // data
 include(":data-ktor")
 include(":data-ktorfit")
