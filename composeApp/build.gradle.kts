@@ -77,6 +77,9 @@ kotlin {
         }
 
         commonMain.dependencies {
+            // presentation
+            implementation(project(":presentation"))
+
             // data
             implementation(project(":data"))
             implementation(project(":data-ktor"))

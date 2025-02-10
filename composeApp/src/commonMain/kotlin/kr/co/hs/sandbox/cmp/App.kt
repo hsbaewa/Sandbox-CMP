@@ -37,6 +37,7 @@ import kr.co.hs.sandbox.cmp.ui.theme.AppTheme
 import kr.co.hs.sandbox.cmp.ui.CommonInfoViewModel
 import kr.co.hs.sandbox.cmp.ui.PlatformInfoViewModel
 import kr.co.hs.sandbox.cmp.ui.PreferenceViewModel
+import kr.co.hs.sandbox.presentation.getUriLauncher
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -120,6 +121,8 @@ private fun Content(
                 }
                 .catch {}
                 .launchIn(this)
+
+            getUriLauncher().launchWebUrl("https://google.com")
         }
     }
 
