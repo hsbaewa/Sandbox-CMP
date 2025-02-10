@@ -121,6 +121,8 @@ kotlin {
 
             // date, time, formatter
             implementation(libs.kotlinx.datetime)
+
+            implementation(libs.androidx.navigation)
         }
         commonTest.dependencies {
             // koin

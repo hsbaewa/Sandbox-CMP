@@ -1,14 +1,22 @@
 package kr.co.hs.sandbox.cmp
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBars
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -16,6 +24,11 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.analytics.FirebaseAnalyticsEvents
 import dev.gitlive.firebase.analytics.FirebaseAnalyticsParam
@@ -48,9 +61,11 @@ import sandboxcmp.composeapp.generated.resources.locale_flag
 import sandboxcmp.composeapp.generated.resources.main_click_me_button
 import sandboxcmp.composeapp.generated.resources.main_title
 import sandboxcmp.composeapp.generated.resources.main_untranslatable
+import kotlin.io.encoding.Base64
+import kotlin.io.encoding.ExperimentalEncodingApi
 import kotlin.random.Random
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalEncodingApi::class)
 @Composable
 @Preview
 fun App() {
@@ -80,25 +95,111 @@ fun App() {
 
     AppTheme {
 
+        val navHostController = rememberNavController()
+        val coroutineScope = rememberCoroutineScope()
+        var hasBackRoute by remember { mutableStateOf(false) }
+        var currentRoute by remember { mutableStateOf<String?>(null) }
+        DisposableEffect(Unit) {
+            val job = navHostController
+                .currentBackStackEntryFlow
+                .onEach {
+                    hasBackRoute = navHostController.previousBackStackEntry != null
+                    currentRoute = it.destination.route
+                }
+                .launchIn(coroutineScope)
+            onDispose { job.cancel() }
+        }
+
         Scaffold(
             topBar = {
                 TopAppBar(
                     title = {
                         Text(
-                            text = stringResource(Res.string.main_title)
+                            text = stringResource(Res.string.main_title) + " : $currentRoute"
                         )
+                    },
+                    navigationIcon = {
+                        if (hasBackRoute) {
+                            CommonNavigationIconButton(onClick = { navHostController.popBackStack() })
+                        }
                     }
                 )
             },
             contentWindowInsets = WindowInsets.systemBars,
             content = {
-                Content(
-                    modifier = Modifier.padding(it)
-                )
+                NavHost(
+                    navController = navHostController,
+                    startDestination = "a",
+                    modifier = Modifier.padding(it),
+                    enterTransition = {
+                        slideInHorizontally(
+                            initialOffsetX = { fullWidth -> -fullWidth.div(4) },
+                            animationSpec = tween(300)
+                        ) + fadeIn(tween(300))
+                    },
+                    exitTransition = { fadeOut(tween(300)) },
+                    popEnterTransition = {
+                        slideInHorizontally(
+                            initialOffsetX = { fullWidth -> -fullWidth.div(4) },
+                            animationSpec = tween(300)
+                        ) + fadeIn(tween(300))
+                    },
+                    popExitTransition = { fadeOut(tween(300)) }
+                ) {
+                    composable(
+                        route = "a"
+                    ) {
+                        Content(
+                            onClickOther = {
+                                val stringPathParameter =
+                                    Base64.encode("path/of/parameter".encodeToByteArray())
+                                val intParameter = Random.nextInt()
+                                navHostController.navigate("b/$stringPathParameter/$intParameter")
+                            }
+                        )
+                    }
+
+                    composable(
+                        route = "b/{stringParameter}/{intParameter}",
+                        arguments = listOf(
+                            navArgument("stringParameter") { type = NavType.StringType },
+                            navArgument("intParameter") { type = NavType.IntType }
+                        )
+                    ) { navBackStackEntry ->
+                        val stringParameter = navBackStackEntry.arguments
+                            ?.getString("stringParameter")
+                            ?.let { p -> Base64.decode(p) }
+                            ?.decodeToString()
+                        val intParameter = navBackStackEntry.arguments
+                            ?.getInt("intParameter")
+
+                        ContentOther(
+                            stringParameter = stringParameter,
+                            intParameter = intParameter
+                        )
+                    }
+                }
+
+
             }
         )
 
     }
+}
+
+@Composable
+fun CommonNavigationIconButton(onClick: (() -> Unit)? = null) {
+    IconButton(
+        onClick = {
+            onClick?.invoke()
+        },
+        content = {
+            Icon(
+                imageVector = Icons.Default.ArrowBack,
+                contentDescription = ""
+            )
+        }
+    )
 }
 
 @Composable
@@ -107,7 +208,8 @@ private fun Content(
     platformInfoViewModel: PlatformInfoViewModel = viewModel { PlatformInfoViewModel() },
     commonInfoViewModel: CommonInfoViewModel = viewModel { CommonInfoViewModel() },
     preferenceViewModel: PreferenceViewModel = viewModel { PreferenceViewModel() },
-    boardViewModel: BoardViewModel = viewModel { BoardViewModel() }
+    boardViewModel: BoardViewModel = viewModel { BoardViewModel() },
+    onClickOther: () -> Unit = {}
 ) {
     var showContent by remember { mutableStateOf(false) }
 
@@ -190,5 +292,24 @@ private fun Content(
                 remoteText?.let { t -> Text("Remote Text: $t") }
             }
         }
+
+        Button(
+            onClick = {
+                onClickOther.invoke()
+            }
+        ) {
+            Text("navigate other")
+        }
+    }
+}
+
+@Composable
+private fun ContentOther(
+    stringParameter: String? = null,
+    intParameter: Int? = null
+) {
+    Column {
+        Text("stringParameter : $stringParameter")
+        Text("intParameter : $intParameter")
     }
 }

@@ -5,6 +5,9 @@ crashlytics = "3.0.2"
 firebaseBom = "33.9.0"
 kotlin-firebase = "2.1.0"
 
+# Navigation
+navigation = "2.8.0-alpha10"
+
 # Database #
 sqlDelight = "2.0.2"
 
@@ -72,6 +75,9 @@ accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-
 
 # Lifecycle
 androidx-lifecycle-viewmodel-compose = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "androidx-lifecycle" }
+
+# Navigation #
+androidx-navigation = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigation" }
 
 # coroutine #
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutineVersion" }
