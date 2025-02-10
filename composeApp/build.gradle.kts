@@ -115,6 +115,9 @@ kotlin {
              */
             implementation(libs.kotlin.firebase.analytics)
             implementation(libs.kotlin.firebase.crashlytics)
+
+            // date, time, formatter
+            implementation(libs.kotlinx.datetime)
         }
         commonTest.dependencies {
             // koin
