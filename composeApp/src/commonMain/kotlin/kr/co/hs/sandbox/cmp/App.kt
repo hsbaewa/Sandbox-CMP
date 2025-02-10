@@ -26,6 +26,12 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.datetime.Clock
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.format
+import kotlinx.datetime.toInstant
+import kotlinx.datetime.toLocalDateTime
 import kr.co.hs.sandbox.cmp.ui.BoardViewModel
 import kr.co.hs.sandbox.cmp.ui.theme.AppTheme
 import kr.co.hs.sandbox.cmp.ui.CommonInfoViewModel
@@ -123,6 +129,37 @@ private fun Content(
     Column(modifier, horizontalAlignment = Alignment.CenterHorizontally) {
         Text(stringResource(Res.string.main_untranslatable))
         Text("board count : ${allBoards.size}")
+
+
+        val instant = Clock.System.now()
+        Text("instant = ${instant.toEpochMilliseconds()}")
+
+        val timeZone = TimeZone.currentSystemDefault()
+        val localDateTime = instant.toLocalDateTime(timeZone)
+        Text("year = ${localDateTime.year}")
+        Text("month = ${localDateTime.monthNumber}")
+
+        Text("millis = ${instant.toEpochMilliseconds()}")
+
+        Text("toInstant = ${localDateTime.toInstant(timeZone)}")
+
+        val format = LocalDateTime.Format {
+            year()
+            chars("-")
+            monthNumber()
+            chars("-")
+            dayOfMonth()
+            chars(" ")
+            hour()
+            chars(":")
+            minute()
+            chars(":")
+            second()
+        }
+
+        Text("dateFormat = ${localDateTime.format(format)}")
+
+
         Button(
             onClick = {
                 showContent = !showContent
