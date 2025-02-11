@@ -1,4 +1,4 @@
-package kr.co.hs.sandbox.cmp.ui
+package kr.co.hs.sandbox.presentation.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -12,21 +12,19 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kr.co.hs.domain.usecase.NoErrorUseCase
-import kr.co.hs.sandbox.domain.usecase.GetButtonClickCountUseCase
-import kr.co.hs.sandbox.domain.usecase.UpCountButtonClickUseCase
+import kr.co.hs.sandbox.domain.usecase.GetPlatformInfoUseCase
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
 
-class PreferenceViewModel : ViewModel(), KoinComponent {
+class PlatformInfoViewModel : ViewModel(), KoinComponent {
 
-    private val upCountButtonClick: UpCountButtonClickUseCase = get()
-    private val getButtonClickCount: GetButtonClickCountUseCase = get()
+    private val getPlatformInfoUseCase: GetPlatformInfoUseCase = get()
 
-    private val _clickCount = MutableStateFlow(0)
-    val clickCount: StateFlow<Int> = _clickCount.asStateFlow()
+    private val _os = MutableStateFlow<String?>(null)
+    val os: StateFlow<String?> = _os.asStateFlow()
 
     init {
-        getButtonClickCount()
+        getPlatformInfoUseCase()
             .map {
                 when (it) {
                     is NoErrorUseCase.Result.Exception -> throw it.t
@@ -34,11 +32,7 @@ class PreferenceViewModel : ViewModel(), KoinComponent {
                 }
             }
             .flowOn(Dispatchers.IO)
-            .onEach { _clickCount.value = it }
+            .onEach { _os.value = it.os }
             .launchIn(viewModelScope)
     }
-
-    fun flowOfUpCountButtonClick() = upCountButtonClick()
-        .flowOn(Dispatchers.IO)
-        .launchIn(viewModelScope)
 }

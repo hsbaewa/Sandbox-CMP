@@ -1,4 +1,4 @@
-package kr.co.hs.sandbox.cmp.ui
+package kr.co.hs.sandbox.presentation.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

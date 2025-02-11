@@ -17,6 +17,7 @@ class MainAppTest : UsingContext() {
             App()
         }
 
-        onNodeWithText("only english").assertExists()
+        onNodeWithText("text : Main").assertExists()
+        onNodeWithText("OpenWebLinkSample")
     }
 }

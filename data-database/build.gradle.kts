@@ -43,6 +43,8 @@ kotlin {
             implementation(libs.sqldelight.runtime)
 
             implementation(project(":domain"))
+
+            implementation(libs.kotlinx.coroutines.core)
         }
 
         commonTest.dependencies {
